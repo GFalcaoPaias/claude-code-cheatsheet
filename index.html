@@ -20,31 +20,58 @@
     --code-bg:   #F3F4F6;
     --code-text: #1D4ED8;
 
-    /* Section accent colors */
-    --c1:  #2563EB; /* keyboard    – blue        */
-    --c2:  #B45309; /* slash cmds  – amber       */
-    --c3:  #D97757; /* cli/flags   – claude coral*/
-    --c4:  #047857; /* session     – emerald     */
-    --c5:  #6D28D9; /* skills      – violet      */
-    --c6:  #0E7490; /* memory      – cyan        */
-    --c7:  #1D4ED8; /* config      – indigo      */
-    --c8:  #C2410C; /* keybindings – orange      */
-    --c9:  #B91C1C; /* hooks       – red         */
-    --c10: #065F46; /* permissions – green       */
-    --c11: #5B21B6; /* mcp         – purple      */
-    --c12: #0F766E; /* vim         – teal        */
+    /* Section accent colors — text/border */
+    --c1:  #1D4ED8; /* keyboard    – blue        */
+    --c2:  #92400E; /* slash cmds  – amber       */
+    --c3:  #9A3412; /* cli/flags   – coral       */
+    --c4:  #065F46; /* session     – emerald     */
+    --c5:  #4C1D95; /* skills      – violet      */
+    --c6:  #164E63; /* memory      – cyan        */
+    --c7:  #1E3A8A; /* config      – indigo      */
+    --c8:  #7C2D12; /* keybindings – orange      */
+    --c9:  #7F1D1D; /* hooks       – red         */
+    --c10: #14532D; /* permissions – green       */
+    --c11: #3B0764; /* mcp         – purple      */
+    --c12: #134E4A; /* vim         – teal        */
+
+    /* Section bg colors — muted pastels */
+    --bg1:  #EFF6FF;
+    --bg2:  #FFFBEB;
+    --bg3:  #FFF7ED;
+    --bg4:  #ECFDF5;
+    --bg5:  #F5F3FF;
+    --bg6:  #ECFEFF;
+    --bg7:  #EEF2FF;
+    --bg8:  #FFF7ED;
+    --bg9:  #FEF2F2;
+    --bg10: #F0FDF4;
+    --bg11: #FAF5FF;
+    --bg12: #F0FDFA;
+
+    /* Title bar = slightly deeper pastel */
+    --hd1:  #DBEAFE;
+    --hd2:  #FDE68A;
+    --hd3:  #FED7AA;
+    --hd4:  #A7F3D0;
+    --hd5:  #DDD6FE;
+    --hd6:  #A5F3FC;
+    --hd7:  #C7D2FE;
+    --hd8:  #FDBA74;
+    --hd9:  #FECACA;
+    --hd10: #BBF7D0;
+    --hd11: #E9D5FF;
+    --hd12: #99F6E4;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    /* Sans-serif for body, monospace only for code */
+    background: #E9ECF0;
+    color: #111827;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: 11.5px;
-    line-height: 1.5;
-    padding: 10px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    padding: 12px;
   }
 
   /* ── HEADER ─────────────────────────────────────────── */
@@ -54,195 +81,190 @@
     align-items: center;
     background: var(--claude-dark);
     color: #fff;
-    padding: 10px 16px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
   }
 
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .claude-logo { width: 36px; height: 36px; flex-shrink: 0; }
+  .header-left { display: flex; align-items: center; gap: 13px; }
+  .claude-logo { width: 40px; height: 40px; flex-shrink: 0; }
 
   .header-title h1 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.5px;
     line-height: 1.1;
   }
 
-  .header-title p {
-    font-size: 11px;
-    color: #A8A29E;
-    margin-top: 2px;
-  }
+  .header-title p { font-size: 12px; color: #A8A29E; margin-top: 3px; }
 
   .header-right {
     text-align: right;
-    font-size: 10.5px;
+    font-size: 11px;
     color: #A8A29E;
     line-height: 1.7;
   }
 
   .header-right strong { color: var(--claude-coral); }
 
-  /* ── GRID ────────────────────────────────────────────── */
+  /* ── COLUMN LAYOUT (newspaper style) ────────────────── */
   .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    columns: 4;
+    column-gap: 10px;
+    orphans: 2;
+    widows: 2;
   }
 
-  /* Row separators */
+  /* Row labels span full width — force column break */
   .row-label {
-    grid-column: 1 / -1;
-    font-size: 9px;
+    column-span: all;
+    font-size: 9.5px;
     font-weight: 700;
     color: var(--claude-coral);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    padding: 6px 2px 2px;
-    border-top: 2px solid var(--border2);
-    margin-top: 2px;
+    padding: 8px 2px 3px;
+    border-top: 2px solid #D1D5DB;
+    margin-top: 4px;
+    margin-bottom: 2px;
   }
 
   .row-label:first-child { border-top: none; margin-top: 0; padding-top: 0; }
 
+  footer { column-span: all; }
+
   /* ── SECTIONS ────────────────────────────────────────── */
   .section {
-    background: var(--surface);
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     overflow: hidden;
     break-inside: avoid;
+    margin-bottom: 10px;
+    display: inline-block; /* critical for column flow */
+    width: 100%;
   }
 
-  .section.span2 { grid-column: span 2; }
+  /* span2 not meaningful in column layout — remove */
+  .section.span2 { column-span: none; }
 
-  /* Section title — solid color bar */
+  /* Section title */
   .section-title {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.7px;
-    padding: 7px 10px;
-    color: #fff;
+    letter-spacing: 0.6px;
+    padding: 8px 11px;
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  /* Section body padding */
+  /* Section body */
   .section > *:not(.section-title) {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 11px;
+    padding-right: 11px;
   }
-  .section > .sub:first-of-type { padding-top: 6px; }
-  .section > *:last-child { padding-bottom: 8px; }
 
-  /* Section colors */
-  .s1  .section-title { background: var(--c1);  }
-  .s2  .section-title { background: var(--c2);  }
-  .s3  .section-title { background: var(--c3);  }
-  .s4  .section-title { background: var(--c4);  }
-  .s5  .section-title { background: var(--c5);  }
-  .s6  .section-title { background: var(--c6);  }
-  .s7  .section-title { background: var(--c7);  }
-  .s8  .section-title { background: var(--c8);  }
-  .s9  .section-title { background: var(--c9);  }
-  .s10 .section-title { background: var(--c10); }
-  .s11 .section-title { background: var(--c11); }
-  .s12 .section-title { background: var(--c12); }
+  .section > .sub:first-of-type { padding-top: 7px; }
+  .section > *:last-child { padding-bottom: 9px; }
 
-  /* Colored left accent on sub-headers */
+  /* Section colors — pastel bg + deeper header */
+  .s1  { background: var(--bg1);  } .s1  .section-title { background: var(--hd1);  color: var(--c1);  }
+  .s2  { background: var(--bg2);  } .s2  .section-title { background: var(--hd2);  color: var(--c2);  }
+  .s3  { background: var(--bg3);  } .s3  .section-title { background: var(--hd3);  color: var(--c3);  }
+  .s4  { background: var(--bg4);  } .s4  .section-title { background: var(--hd4);  color: var(--c4);  }
+  .s5  { background: var(--bg5);  } .s5  .section-title { background: var(--hd5);  color: var(--c5);  }
+  .s6  { background: var(--bg6);  } .s6  .section-title { background: var(--hd6);  color: var(--c6);  }
+  .s7  { background: var(--bg7);  } .s7  .section-title { background: var(--hd7);  color: var(--c7);  }
+  .s8  { background: var(--bg8);  } .s8  .section-title { background: var(--hd8);  color: var(--c8);  }
+  .s9  { background: var(--bg9);  } .s9  .section-title { background: var(--hd9);  color: var(--c9);  }
+  .s10 { background: var(--bg10); } .s10 .section-title { background: var(--hd10); color: var(--c10); }
+  .s11 { background: var(--bg11); } .s11 .section-title { background: var(--hd11); color: var(--c11); }
+  .s12 { background: var(--bg12); } .s12 .section-title { background: var(--hd12); color: var(--c12); }
+
+  /* Sub-headers */
   .sub {
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 700;
-    color: var(--muted);
+    color: #6B7280;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    margin: 7px 0 3px;
+    margin: 8px 0 3px;
     padding-bottom: 2px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(0,0,0,0.10);
   }
 
   /* ── TABLES ──────────────────────────────────────────── */
   table { width: 100%; border-collapse: collapse; }
 
   td {
-    padding: 1.5px 2px;
+    padding: 2px 2px;
     vertical-align: top;
-    color: var(--text);
-    font-size: 11px;
+    color: #1F2937;
+    font-size: 12px;
   }
 
   td:first-child {
     white-space: nowrap;
     padding-right: 8px;
-    min-width: 100px;
+    min-width: 110px;
   }
 
   /* ── INLINE ELEMENTS ─────────────────────────────────── */
   kbd {
     display: inline-block;
-    background: #F9FAFB;
+    background: #fff;
     border: 1px solid #D1D5DB;
     border-bottom: 2px solid #9CA3AF;
     border-radius: 4px;
-    padding: 0 4px;
+    padding: 0 5px;
     font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 9.5px;
+    font-size: 10.5px;
     color: #374151;
     white-space: nowrap;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   code {
-    background: var(--code-bg);
+    background: rgba(255,255,255,0.7);
     border-radius: 3px;
     padding: 1px 4px;
-    color: var(--code-text);
     font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 10px;
-    border: 1px solid #E5E7EB;
+    font-size: 11px;
+    border: 1px solid rgba(0,0,0,0.12);
+    color: #1D4ED8;
   }
 
-  .desc { color: var(--muted); font-size: 11px; }
-  .flag { color: #C2410C; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 10px; }
+  .desc { color: #4B5563; font-size: 12px; }
+  .flag { color: #9A3412; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; }
 
   .new {
     background: #DCFCE7;
     border: 1px solid #86EFAC;
     color: #15803D;
-    font-size: 7.5px;
+    font-size: 8px;
     border-radius: 3px;
-    padding: 0 3px;
+    padding: 0 4px;
     margin-left: 3px;
     vertical-align: middle;
     font-weight: 700;
-    letter-spacing: 0.3px;
   }
 
   /* ── CODE BLOCKS ─────────────────────────────────────── */
   .block {
     background: #1E293B;
     border-radius: 5px;
-    padding: 6px 8px;
-    margin-top: 4px;
-    font-size: 9.5px;
+    padding: 7px 9px;
+    margin-top: 5px;
+    font-size: 10.5px;
     color: #94A3B8;
     font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
     white-space: pre;
     overflow-x: hidden;
-    line-height: 1.5;
+    line-height: 1.55;
   }
-
-  .block .hl { color: #7DD3FC; }
 
   /* ── HOOKS 2-COL ─────────────────────────────────────── */
   .inline-grid {
@@ -260,35 +282,33 @@
   }
 
   .mode-pill {
-    background: var(--code-bg);
-    border: 1px solid var(--border2);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.15);
     border-radius: 4px;
-    padding: 2px 6px;
-    font-size: 10px;
-    color: var(--text);
+    padding: 2px 7px;
+    font-size: 11px;
+    color: #1F2937;
   }
 
-  .mode-pill span { color: var(--muted); font-size: 10px; }
+  .mode-pill span { color: #6B7280; }
 
   /* ── FOOTER ──────────────────────────────────────────── */
   footer {
-    grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9px;
-    color: var(--muted);
+    font-size: 10px;
+    color: #9CA3AF;
     padding-top: 8px;
-    border-top: 1px solid var(--border2);
+    border-top: 1px solid #D1D5DB;
     margin-top: 4px;
   }
 
   /* ── PRINT ───────────────────────────────────────────── */
   @media print {
     @page { size: A3 landscape; margin: 6mm; }
-    body { background: #F0F2F5; font-size: 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .section-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #E9ECF0; font-size: 11px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-title, .block, .section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
