@@ -314,8 +314,10 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-    .grid { columns: 3; column-gap: 10px; }
-    header { border-radius: 6px; padding: 8px 14px; margin-bottom: 8px; }
+    /* Prevent blank first page caused by column-span:all */
+    header { break-after: avoid; page-break-after: avoid; border-radius: 6px; padding: 8px 14px; margin-bottom: 8px; }
+    .grid { break-before: avoid; page-break-before: avoid; columns: 3; column-gap: 10px; }
+    .row-label { break-before: avoid; page-break-before: avoid; }
     .header-title h1 { font-size: 20px; }
     .section-title, .block, .section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .section { margin-bottom: 8px; }
