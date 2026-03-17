@@ -321,11 +321,17 @@
       <tr><td><code>/insights</code></td><td class="desc">Analyze sessions report</td></tr>
       <tr><td><code>/btw &lt;q&gt;</code></td><td class="desc">Side Q, no context cost</td></tr>
       <tr><td><code>/plan [desc]</code></td><td class="desc">Plan mode + auto-start</td></tr>
+      <tr><td><code>/ultrathink</code></td><td class="desc">Max effort for this turn</td></tr>
       <tr><td><code>/voice</code></td><td class="desc">Push-to-talk (20 langs) <span class="new">NEW</span></td></tr>
       <tr><td><code>/loop [interval]</code></td><td class="desc">Recurring scheduled task</td></tr>
       <tr><td><code>/pr-comments [PR]</code></td><td class="desc">Fetch GitHub PR comments</td></tr>
       <tr><td><code>/rc</code></td><td class="desc">Enable remote control</td></tr>
+      <tr><td><code>/chrome</code></td><td class="desc">Chrome browser integration</td></tr>
+      <tr><td><code>/desktop</code></td><td class="desc">Continue in Desktop app</td></tr>
+      <tr><td><code>/color [color]</code></td><td class="desc">Set prompt-bar color</td></tr>
       <tr><td><code>/reload-plugins</code></td><td class="desc">Hot-reload plugins</td></tr>
+      <tr><td><code>/keybindings</code></td><td class="desc">Edit keybindings file</td></tr>
+      <tr><td><code>/stickers</code></td><td class="desc">Order stickers 🎉</td></tr>
     </table>
   </div>
 
@@ -341,7 +347,12 @@
       <tr><td><code>claude -c</code></td><td class="desc">Continue last conv</td></tr>
       <tr><td><code>claude -r "name"</code></td><td class="desc">Resume by name/ID</td></tr>
       <tr><td><code>claude update</code></td><td class="desc">Update to latest</td></tr>
-      <tr><td><code>claude auth login</code></td><td class="desc">Sign in</td></tr>
+      <tr><td><code>claude auth login</code></td><td class="desc">Sign in (--sso flag)</td></tr>
+      <tr><td><code>claude auth logout</code></td><td class="desc">Sign out</td></tr>
+      <tr><td><code>claude auth status</code></td><td class="desc">Check auth (--text)</td></tr>
+      <tr><td><code>claude agents</code></td><td class="desc">List configured agents</td></tr>
+      <tr><td><code>claude remote-control</code></td><td class="desc">Start remote control server</td></tr>
+      <tr><td><code>claude mcp serve</code></td><td class="desc">Use Claude Code as MCP server</td></tr>
     </table>
 
     <div class="sub">Key Flags</div>
@@ -366,14 +377,30 @@
       <tr><td><code class="flag">--from-pr</code></td><td class="desc">Resume from PR link</td></tr>
       <tr><td><code class="flag">--remote</code></td><td class="desc">Web session on claude.ai</td></tr>
       <tr><td><code class="flag">--verbose</code></td><td class="desc">Verbose logging</td></tr>
-      <tr><td><code class="flag">--debug</code></td><td class="desc">Debug mode</td></tr>
+      <tr><td><code class="flag">--debug [cats]</code></td><td class="desc">Debug (api,mcp,...)</td></tr>
+      <tr><td><code class="flag">--fallback-model</code></td><td class="desc">Auto-fallback if overloaded</td></tr>
+      <tr><td><code class="flag">--betas</code></td><td class="desc">Beta headers for API</td></tr>
+      <tr><td><code class="flag">--teleport</code></td><td class="desc">Resume web session in terminal</td></tr>
+      <tr><td><code class="flag">--chrome</code></td><td class="desc">Enable Chrome integration</td></tr>
+      <tr><td><code class="flag">--dangerously-skip-permissions</code></td><td class="desc">Skip all prompts (isolated env)</td></tr>
+      <tr><td><code class="flag">--init / --init-only</code></td><td class="desc">Run init hooks (+ exit)</td></tr>
+      <tr><td><code class="flag">--maintenance</code></td><td class="desc">Run maintenance hooks + exit</td></tr>
+      <tr><td><code class="flag">--strict-mcp-config</code></td><td class="desc">Only use specified MCP config</td></tr>
+      <tr><td><code class="flag">--input-format</code></td><td class="desc">text / stream-json</td></tr>
+      <tr><td><code class="flag">--include-partial-messages</code></td><td class="desc">Stream partial events</td></tr>
+      <tr><td><code class="flag">--permission-prompt-tool</code></td><td class="desc">MCP tool for auth prompts</td></tr>
+      <tr><td><code class="flag">--no-session-persistence</code></td><td class="desc">Don't save session to disk</td></tr>
+      <tr><td><code class="flag">--plugin-dir</code></td><td class="desc">Load plugins from dir</td></tr>
+      <tr><td><code class="flag">--setting-sources</code></td><td class="desc">user,project (comma-sep)</td></tr>
     </table>
 
     <div class="sub">Headless examples</div>
     <div class="block">cat file.txt | claude -p "summarize"
 claude -p --output-format json "extract users"
 claude -p --max-turns 3 --effort high "refactor"
-claude -c -p "continue the last task"</div>
+claude -c -p "continue the last task"
+claude -p --fallback-model sonnet "complex task"
+echo '{"messages":[...]}' | claude -p --input-format stream-json</div>
   </div>
 
   <!-- 4. SESSION MANAGEMENT -->
@@ -434,6 +461,33 @@ No persistence: claude -p --no-session-persistence</div>
       <tr><td><code>--permission-mode plan</code></td><td class="desc">Start in plan mode</td></tr>
       <tr><td><code>/plan [desc]</code></td><td class="desc">Plan + auto-start</td></tr>
     </table>
+
+    <div class="sub">! Bash Mode (quick shell)</div>
+    <div class="block">! npm test          # run without Claude interpreting
+! git status        # output added to context
+! ls -la            # Ctrl+B to background
+Tab autocomplete from history · Esc to exit</div>
+
+    <div class="sub">Voice Mode <span class="new">NEW</span></div>
+    <div class="block">/voice  → enable push-to-talk
+Space (hold) → record · release → send
+20 languages: EN ES FR DE PT IT PL CZ
+               NL RU JA KO ZH AR HI...</div>
+
+    <div class="sub">Remote &amp; Web Sessions</div>
+    <table>
+      <tr><td><code>--remote</code></td><td class="desc">Open web session on claude.ai</td></tr>
+      <tr><td><code>--teleport</code></td><td class="desc">Resume web session in terminal</td></tr>
+      <tr><td><code>--rc / /rc</code></td><td class="desc">Start Remote Control server</td></tr>
+      <tr><td><code>claude remote-control</code></td><td class="desc">Named RC server</td></tr>
+    </table>
+
+    <div class="sub">Tasks (background agents)</div>
+    <div class="block">TaskCreate / TaskUpdate / TaskList
+TaskGet / TaskStop / TaskOutput
+set in_progress → started · completed → done
+CLAUDE_CODE_TASK_LIST_ID=name  # named list
+CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1</div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════════ -->
@@ -481,6 +535,21 @@ isolation: worktree  → isolated git worktree
 memory: user|project → persistent memory
 background: true     → background task
 maxTurns: N          → limit agentic turns</div>
+
+    <div class="sub">Worktrees &amp; /batch</div>
+    <div class="block">/batch  → parallel changes across worktrees
+isolation: worktree in agent frontmatter
+SparsePaths: checkout only needed dirs
+claude -w feat    → agent in own worktree
+git worktree list → see all active trees</div>
+
+    <div class="sub">Plugin System</div>
+    <div class="block">Location: .claude/plugins/&lt;name&gt;/
+           ~/.claude/plugins/&lt;name&gt;/
+Enable:  settings.json "plugins": {
+           "enabledPlugins": {"name": true} }
+Contents: plugin.json + skills/ + hooks/
+/reload-plugins  → hot-reload without restart</div>
   </div>
 
   <!-- 6. MEMORY & FILES -->
@@ -562,7 +631,20 @@ Types: user | feedback | project | reference</div>
       <tr><td><code>ENABLE_TOOL_SEARCH</code></td><td class="desc">auto:5 / true / false</td></tr>
       <tr><td><code>MAX_MCP_OUTPUT_TOKENS</code></td><td class="desc">Default 25K</td></tr>
       <tr><td><code>MCP_TIMEOUT</code></td><td class="desc">ms, default 10000</td></tr>
+      <tr><td><code>CLAUDE_CODE_DISABLE_BACKGROUND_TASKS</code></td><td class="desc">Disable bg tasks</td></tr>
+      <tr><td><code>CLAUDE_CODE_TASK_LIST_ID</code></td><td class="desc">Named task list (persists)</td></tr>
+      <tr><td><code>CLAUDE_CODE_NO_SESSION_PERSISTENCE</code></td><td class="desc">Don't save sessions</td></tr>
+      <tr><td><code>CLAUDE_CODE_DEBUG</code></td><td class="desc">true / "api,mcp"</td></tr>
+      <tr><td><code>CLAUDE_CODE_REMOTE</code></td><td class="desc">"true" in web sessions</td></tr>
+      <tr><td><code>MCP_CLIENT_SECRET</code></td><td class="desc">OAuth secret (non-interactive)</td></tr>
     </table>
+
+    <div class="sub">Key Settings (settings.json)</div>
+    <div class="block">"disableBypassPermissionsMode": "disable"
+"sandbox": { "filesystem": { "allow": [...] },
+             "network": { "allowedDomains": [...] } }
+"plugins": { "enabledPlugins": { "name": true } }
+"env": { "DEBUG": "true" }   ← session env vars</div>
   </div>
 
   <!-- 8. MCP SERVERS -->
@@ -601,6 +683,26 @@ claude mcp add --transport http secure \
     <div class="sub">Env Var Expansion in .mcp.json</div>
     <div class="block">"url": "${API_BASE_URL:-https://default.com}/mcp"
 "headers": {"Authorization": "Bearer ${API_KEY}"}</div>
+
+    <div class="sub">OAuth Setup</div>
+    <div class="block">claude mcp add --transport http \
+  --client-id ID --client-secret \
+  --callback-port 8080 name URL
+MCP_CLIENT_SECRET=secret claude mcp add ...
+/mcp → select server → authenticate</div>
+
+    <div class="sub">Advanced</div>
+    <table>
+      <tr><td><code>claude mcp serve</code></td><td class="desc">CC as MCP server for other tools</td></tr>
+      <tr><td><code>claude mcp add-json</code></td><td class="desc">Add server from JSON string</td></tr>
+      <tr><td><code>claude mcp add-from-claude-desktop</code></td><td class="desc">Import from Desktop</td></tr>
+      <tr><td><code>claude mcp reset-project-choices</code></td><td class="desc">Reset project server choices</td></tr>
+      <tr><td><code>Elicitation</code></td><td class="desc">Server requests input mid-task <span class="new">NEW</span></td></tr>
+    </table>
+
+    <div class="sub">Tool Search (auto when &gt;10% ctx)</div>
+    <div class="block">ENABLE_TOOL_SEARCH=true claude
+ENABLE_TOOL_SEARCH=auto:5  # at 5% threshold</div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════════ -->
@@ -702,6 +804,26 @@ claude mcp add --transport http secure \
         <div class="sub">Disable Hooks</div>
         <div class="block">settings.json: "disableAllHooks": true
 /hooks  → browse and disable individually</div>
+
+        <div class="sub">Practical Examples</div>
+        <div class="block"># Notify when Claude finishes (Stop event)
+"Stop": [{"hooks": [{"type": "command",
+  "command": "notify-send 'Claude done'"}]}]
+
+# Auto-approve safe reads (PermissionRequest)
+"PermissionRequest": [{"hooks": [{"type":
+  "command", "command": "./auto-approve.sh"}]}]
+
+# Block pushes to main (PreToolUse)
+"PreToolUse": [{"matcher": "Bash(git push*)",
+  "hooks": [{"type": "command",
+  "command": "./check-branch.sh"}]}]
+
+# LLM safety check (prompt hook)
+"PreToolUse": [{"matcher": "Bash",
+  "hooks": [{"type": "prompt",
+  "prompt": "Is this safe? $ARGUMENTS",
+  "model": "claude-haiku-4"}]}]</div>
       </div>
     </div>
   </div>
@@ -846,8 +968,22 @@ ModelPicker · HistorySearch · Transcript</div>
 "ctrl+k ctrl+s"   chord (sequence)
 null              unbind key</div>
 
+    <div class="sub">More Actions</div>
+    <table>
+      <tr><td><code>app:toggleTranscript</code></td><td class="desc">Verbose output</td></tr>
+      <tr><td><code>chat:cancel</code></td><td class="desc">Cancel input</td></tr>
+      <tr><td><code>chat:stash</code></td><td class="desc">Stash current prompt</td></tr>
+      <tr><td><code>chat:imagePaste</code></td><td class="desc">Paste image (Ctrl+V)</td></tr>
+      <tr><td><code>chat:undo</code></td><td class="desc">Undo (Ctrl+_)</td></tr>
+      <tr><td><code>diff:dismiss</code></td><td class="desc">Close diff viewer</td></tr>
+      <tr><td><code>select:accept</code></td><td class="desc">Accept in picker</td></tr>
+      <tr><td><code>confirm:yes / :no</code></td><td class="desc">Y/N in dialogs</td></tr>
+    </table>
+
     <div class="sub">Validate</div>
-    <div class="block">/doctor  → shows keybinding warnings</div>
+    <div class="block">/doctor  → shows keybinding warnings
+Reserved (cannot rebind): Ctrl+C · Ctrl+D
+Conflicts: Ctrl+B=tmux · Ctrl+A=screen</div>
   </div>
 
   <footer>
