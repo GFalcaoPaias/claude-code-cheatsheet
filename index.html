@@ -6,33 +6,33 @@
 <title>Claude Code Cheat Sheet</title>
 <style>
   :root {
-    /* Claude brand palette */
-    --claude-coral:   #D97757;
-    --claude-dark:    #1A0F0A;
-    --claude-warm:    #CC785C;
+    /* Claude brand */
+    --claude-coral: #D97757;
+    --claude-dark:  #1C1917;
 
-    /* Surface palette */
-    --bg:       #111318;
-    --surface:  #1C2128;
-    --surface2: #22272E;
-    --border:   #373E47;
-    --text:     #D8DEE9;
-    --muted:    #768390;
-    --code-bg:  #161B22;
+    /* Surface — light theme */
+    --bg:        #F0F2F5;
+    --surface:   #FFFFFF;
+    --border:    #E2E6EA;
+    --border2:   #CBD2D9;
+    --text:      #1A202C;
+    --muted:     #6B7280;
+    --code-bg:   #F3F4F6;
+    --code-text: #1D4ED8;
 
-    /* Section accent colors — rich & distinct */
-    --c1:  #4D9EFF; /* keyboard    – azure       */
-    --c2:  #E3A840; /* slash cmds  – amber       */
+    /* Section accent colors */
+    --c1:  #2563EB; /* keyboard    – blue        */
+    --c2:  #B45309; /* slash cmds  – amber       */
     --c3:  #D97757; /* cli/flags   – claude coral*/
-    --c4:  #3CBC6E; /* session     – green       */
-    --c5:  #B87FFF; /* skills      – violet      */
-    --c6:  #2EA669; /* memory      – emerald     */
-    --c7:  #5BA3F5; /* config      – sky blue    */
-    --c8:  #F0883E; /* keybindings – orange      */
-    --c9:  #F47067; /* hooks       – red         */
-    --c10: #57AB5A; /* permissions – sage        */
-    --c11: #986EE2; /* mcp         – purple      */
-    --c12: #39C5CF; /* vim         – teal        */
+    --c4:  #047857; /* session     – emerald     */
+    --c5:  #6D28D9; /* skills      – violet      */
+    --c6:  #0E7490; /* memory      – cyan        */
+    --c7:  #1D4ED8; /* config      – indigo      */
+    --c8:  #C2410C; /* keybindings – orange      */
+    --c9:  #B91C1C; /* hooks       – red         */
+    --c10: #065F46; /* permissions – green       */
+    --c11: #5B21B6; /* mcp         – purple      */
+    --c12: #0F766E; /* vim         – teal        */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,10 +40,11 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    font-size: 10.5px;
-    line-height: 1.45;
-    padding: 8px;
+    /* Sans-serif for body, monospace only for code */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 11.5px;
+    line-height: 1.5;
+    padding: 10px;
   }
 
   /* ── HEADER ─────────────────────────────────────────── */
@@ -51,66 +52,61 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 10px 8px;
-    margin-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    background: var(--claude-dark);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
   }
 
   .header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
 
-  /* Claude logo SVG */
-  .claude-logo {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-  }
+  .claude-logo { width: 36px; height: 36px; flex-shrink: 0; }
 
   .header-title h1 {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.5px;
-    line-height: 1;
+    line-height: 1.1;
   }
 
   .header-title p {
-    font-size: 9px;
-    color: var(--muted);
+    font-size: 11px;
+    color: #A8A29E;
     margin-top: 2px;
   }
 
   .header-right {
     text-align: right;
-    font-size: 9px;
-    color: var(--muted);
-    line-height: 1.6;
+    font-size: 10.5px;
+    color: #A8A29E;
+    line-height: 1.7;
   }
 
-  .header-right strong {
-    color: var(--claude-coral);
-  }
+  .header-right strong { color: var(--claude-coral); }
 
   /* ── GRID ────────────────────────────────────────────── */
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
 
   /* Row separators */
   .row-label {
     grid-column: 1 / -1;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 700;
     color: var(--claude-coral);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    padding: 5px 4px 2px;
-    border-top: 1px solid var(--border);
+    padding: 6px 2px 2px;
+    border-top: 2px solid var(--border2);
     margin-top: 2px;
   }
 
@@ -119,51 +115,59 @@
   /* ── SECTIONS ────────────────────────────────────────── */
   .section {
     background: var(--surface);
-    border-radius: 5px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     overflow: hidden;
     break-inside: avoid;
-    padding: 0 7px 6px;
   }
 
   .section.span2 { grid-column: span 2; }
 
-  /* Section title — solid colored bar, bleeds to edge */
+  /* Section title — solid color bar */
   .section-title {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 5px 8px;
-    margin: 0 -7px 5px -7px;
+    letter-spacing: 0.7px;
+    padding: 7px 10px;
     color: #fff;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
 
-  /* Section color: background on title bar */
+  /* Section body padding */
+  .section > *:not(.section-title) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .section > .sub:first-of-type { padding-top: 6px; }
+  .section > *:last-child { padding-bottom: 8px; }
+
+  /* Section colors */
   .s1  .section-title { background: var(--c1);  }
-  .s2  .section-title { background: var(--c2);  color: #111; }
+  .s2  .section-title { background: var(--c2);  }
   .s3  .section-title { background: var(--c3);  }
   .s4  .section-title { background: var(--c4);  }
   .s5  .section-title { background: var(--c5);  }
   .s6  .section-title { background: var(--c6);  }
   .s7  .section-title { background: var(--c7);  }
-  .s8  .section-title { background: var(--c8);  color: #111; }
+  .s8  .section-title { background: var(--c8);  }
   .s9  .section-title { background: var(--c9);  }
   .s10 .section-title { background: var(--c10); }
   .s11 .section-title { background: var(--c11); }
-  .s12 .section-title { background: var(--c12); color: #111; }
+  .s12 .section-title { background: var(--c12); }
 
-  /* Sub-headers */
+  /* Colored left accent on sub-headers */
   .sub {
-    font-size: 8px;
+    font-size: 9px;
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 5px 0 2px;
-    padding-bottom: 1px;
+    letter-spacing: 0.6px;
+    margin: 7px 0 3px;
+    padding-bottom: 2px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -171,44 +175,51 @@
   table { width: 100%; border-collapse: collapse; }
 
   td {
-    padding: 1px 2px;
+    padding: 1.5px 2px;
     vertical-align: top;
     color: var(--text);
+    font-size: 11px;
   }
 
   td:first-child {
     white-space: nowrap;
-    padding-right: 6px;
-    min-width: 90px;
+    padding-right: 8px;
+    min-width: 100px;
   }
 
   /* ── INLINE ELEMENTS ─────────────────────────────────── */
   kbd {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 0 3px;
-    font-size: 9px;
-    color: #E8F4FF;
+    display: inline-block;
+    background: #F9FAFB;
+    border: 1px solid #D1D5DB;
+    border-bottom: 2px solid #9CA3AF;
+    border-radius: 4px;
+    padding: 0 4px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 9.5px;
+    color: #374151;
     white-space: nowrap;
+    line-height: 1.6;
   }
 
   code {
     background: var(--code-bg);
-    border-radius: 2px;
-    padding: 0 3px;
-    color: #79C0FF;
-    font-size: 9.5px;
+    border-radius: 3px;
+    padding: 1px 4px;
+    color: var(--code-text);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 10px;
+    border: 1px solid #E5E7EB;
   }
 
-  .desc { color: var(--muted); }
-  .flag { color: #F0883E; font-size: 9.5px; }
+  .desc { color: var(--muted); font-size: 11px; }
+  .flag { color: #C2410C; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 10px; }
 
   .new {
-    background: #1F6335;
-    border: 1px solid #2EA043;
-    color: #3FB950;
-    font-size: 7px;
+    background: #DCFCE7;
+    border: 1px solid #86EFAC;
+    color: #15803D;
+    font-size: 7.5px;
     border-radius: 3px;
     padding: 0 3px;
     margin-left: 3px;
@@ -219,45 +230,45 @@
 
   /* ── CODE BLOCKS ─────────────────────────────────────── */
   .block {
-    background: var(--code-bg);
-    border-radius: 3px;
-    padding: 4px 6px;
-    margin-top: 3px;
-    font-size: 8.5px;
-    color: #79C0FF;
-    border-left: 2px solid var(--border);
+    background: #1E293B;
+    border-radius: 5px;
+    padding: 6px 8px;
+    margin-top: 4px;
+    font-size: 9.5px;
+    color: #94A3B8;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
     white-space: pre;
     overflow-x: hidden;
+    line-height: 1.5;
   }
 
-  /* ── HOOKS SPLIT ─────────────────────────────────────── */
+  .block .hl { color: #7DD3FC; }
+
+  /* ── HOOKS 2-COL ─────────────────────────────────────── */
   .inline-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0 10px;
+    gap: 0 14px;
   }
 
   /* ── PERMISSION MODES ────────────────────────────────── */
   .modes-bar {
     display: flex;
-    gap: 3px;
-    margin-top: 4px;
+    gap: 4px;
+    margin-top: 5px;
     flex-wrap: wrap;
   }
 
   .mode-pill {
     background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 2px 5px;
-    font-size: 8.5px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
     color: var(--text);
   }
 
-  .mode-pill span {
-    color: var(--muted);
-    font-size: 8px;
-  }
+  .mode-pill span { color: var(--muted); font-size: 10px; }
 
   /* ── FOOTER ──────────────────────────────────────────── */
   footer {
@@ -265,20 +276,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 8px;
+    font-size: 9px;
     color: var(--muted);
-    padding-top: 6px;
-    border-top: 1px solid var(--border);
-    margin-top: 3px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border2);
+    margin-top: 4px;
   }
-
-  footer a { color: var(--claude-coral); text-decoration: none; }
 
   /* ── PRINT ───────────────────────────────────────────── */
   @media print {
-    @page { size: A3 landscape; margin: 5mm; }
-    body { font-size: 9px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A3 landscape; margin: 6mm; }
+    body { background: #F0F2F5; font-size: 10px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .section-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
