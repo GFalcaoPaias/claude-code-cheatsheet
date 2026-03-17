@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Cheat Sheet</title>
+<style>
+  :root {
+    --bg:       #0d1117;
+    --surface:  #161b22;
+    --border:   #30363d;
+    --text:     #c9d1d9;
+    --muted:    #8b949e;
+    --code-bg:  #1c2128;
+
+    --c1: #58a6ff; /* keyboard   – blue        */
+    --c2: #e3b341; /* slash cmds – amber       */
+    --c3: #f78166; /* cli/flags  – coral       */
+    --c4: #3fb950; /* session    – green       */
+    --c5: #d2a8ff; /* skills     – purple      */
+    --c6: #39d353; /* memory     – lime        */
+    --c7: #79c0ff; /* config     – light-blue  */
+    --c8: #ffa657; /* workflows  – orange      */
+    --c9: #ff7b72; /* hooks      – red         */
+    --c10:#56d364; /* permissions– emerald     */
+    --c11:#bc8cff; /* mcp        – violet      */
+    --c12:#63e6be; /* vim        – teal        */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    font-size: 9px;
+    line-height: 1.4;
+    padding: 6px;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px 6px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+
+  header h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  header span {
+    font-size: 8px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  /* Row separators */
+  .row-label {
+    grid-column: 1 / -1;
+    font-size: 7px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 2px 1px;
+    border-top: 1px solid var(--border);
+    margin-top: 2px;
+  }
+
+  .row-label:first-child { border-top: none; margin-top: 0; }
+
+  .section {
+    background: var(--surface);
+    border-radius: 4px;
+    padding: 5px 6px;
+    border-top: 2px solid var(--border);
+    break-inside: avoid;
+  }
+
+  .section.span2 { grid-column: span 2; }
+
+  .section-title {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Color accents per section */
+  .s1 { border-top-color: var(--c1); } .s1 .section-title { color: var(--c1); }
+  .s2 { border-top-color: var(--c2); } .s2 .section-title { color: var(--c2); }
+  .s3 { border-top-color: var(--c3); } .s3 .section-title { color: var(--c3); }
+  .s4 { border-top-color: var(--c4); } .s4 .section-title { color: var(--c4); }
+  .s5 { border-top-color: var(--c5); } .s5 .section-title { color: var(--c5); }
+  .s6 { border-top-color: var(--c6); } .s6 .section-title { color: var(--c6); }
+  .s7 { border-top-color: var(--c7); } .s7 .section-title { color: var(--c7); }
+  .s8 { border-top-color: var(--c8); } .s8 .section-title { color: var(--c8); }
+  .s9 { border-top-color: var(--c9); } .s9 .section-title { color: var(--c9); }
+  .s10{ border-top-color: var(--c10);} .s10 .section-title{ color: var(--c10);}
+  .s11{ border-top-color: var(--c11);} .s11 .section-title{ color: var(--c11);}
+  .s12{ border-top-color: var(--c12);} .s12 .section-title{ color: var(--c12);}
+
+  .sub {
+    font-size: 7.5px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 4px 0 2px;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  td {
+    padding: 0.8px 2px;
+    vertical-align: top;
+    color: var(--text);
+  }
+
+  td:first-child {
+    white-space: nowrap;
+    padding-right: 5px;
+    min-width: 80px;
+  }
+
+  kbd {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0 2px;
+    font-size: 8px;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  code {
+    background: var(--code-bg);
+    border-radius: 2px;
+    padding: 0 2px;
+    color: #a5d6ff;
+    font-size: 8.5px;
+  }
+
+  .cmd { color: var(--text); }
+  .desc { color: var(--muted); }
+
+  .flag { color: #ffa657; font-size: 8.5px; }
+  .new {
+    background: #238636;
+    color: #fff;
+    font-size: 6.5px;
+    border-radius: 2px;
+    padding: 0 2px;
+    margin-left: 2px;
+    vertical-align: middle;
+    font-weight: 700;
+  }
+
+  .block {
+    background: var(--code-bg);
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin-top: 3px;
+    font-size: 8px;
+    color: #a5d6ff;
+    border-left: 2px solid var(--border);
+  }
+
+  .inline-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 8px;
+  }
+
+  footer {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 7px;
+    color: var(--muted);
+    padding-top: 5px;
+    border-top: 1px solid var(--border);
+    margin-top: 3px;
+  }
+
+  /* Permission modes bar */
+  .modes-bar {
+    display: flex;
+    gap: 3px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .mode-pill {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1px 4px;
+    font-size: 7.5px;
+    color: var(--text);
+  }
+  .mode-pill span { color: var(--muted); font-size: 7px; }
+
+  @media print {
+    @page { size: A3 landscape; margin: 6mm; }
+    body { background: #fff !important; color: #000 !important; font-size: 8px; }
+    .section { background: #f6f8fa !important; border-color: #ccc !important; }
+    .section-title { color: #000 !important; }
+    kbd, code { background: #e8e8e8 !important; color: #000 !important; border-color: #ccc !important; }
+    .block { background: #eee !important; color: #333 !important; }
+    td, .desc, .muted { color: #333 !important; }
+    .row-label { color: #666 !important; }
+    footer { color: #666 !important; }
+    .new { background: #1a7f37 !important; }
+    header { border-color: #ccc !important; }
+    .modes-bar .mode-pill { background: #eee !important; border-color: #ccc !important; color: #000 !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Claude Code Cheat Sheet</h1>
+  <span>Claude Code v2.1+ &nbsp;·&nbsp; Last updated: 2026-03 &nbsp;·&nbsp; Print: A3 Landscape</span>
+</header>
+
+<div class="grid">
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="row-label">⬆ EVERYDAY — Most frequently used</div>
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- 1. KEYBOARD SHORTCUTS -->
+  <div class="section s1">
+    <div class="section-title">🎹 Keyboard Shortcuts</div>
+
+    <div class="sub">General</div>
+    <table>
+      <tr><td><kbd>Ctrl C</kbd></td><td class="desc">Cancel input / generation</td></tr>
+      <tr><td><kbd>Ctrl D</kbd></td><td class="desc">Exit session</td></tr>
+      <tr><td><kbd>Ctrl L</kbd></td><td class="desc">Clear screen (keeps history)</td></tr>
+      <tr><td><kbd>Ctrl O</kbd></td><td class="desc">Toggle verbose output</td></tr>
+      <tr><td><kbd>Ctrl R</kbd></td><td class="desc">Reverse search history</td></tr>
+      <tr><td><kbd>Ctrl G</kbd></td><td class="desc">Open in external editor</td></tr>
+      <tr><td><kbd>Ctrl F</kbd></td><td class="desc">Kill background agents (×2)</td></tr>
+      <tr><td><kbd>Ctrl B</kbd></td><td class="desc">Background running task</td></tr>
+      <tr><td><kbd>Ctrl T</kbd></td><td class="desc">Toggle task list</td></tr>
+      <tr><td><kbd>Ctrl V</kbd></td><td class="desc">Paste image from clipboard</td></tr>
+      <tr><td><kbd>Esc Esc</kbd></td><td class="desc">Rewind / summarize conv</td></tr>
+    </table>
+
+    <div class="sub">Mode Switching</div>
+    <table>
+      <tr><td><kbd>Shift Tab</kbd></td><td class="desc">Cycle permission modes</td></tr>
+      <tr><td><kbd>Alt P</kbd></td><td class="desc">Switch model</td></tr>
+      <tr><td><kbd>Alt T</kbd></td><td class="desc">Toggle thinking</td></tr>
+    </table>
+
+    <div class="sub">Input / Text Editing</div>
+    <table>
+      <tr><td><kbd>\ Enter</kbd></td><td class="desc">Newline (quick)</td></tr>
+      <tr><td><kbd>Shift Enter</kbd></td><td class="desc">Newline (iTerm2/Kitty)</td></tr>
+      <tr><td><kbd>Ctrl K</kbd></td><td class="desc">Delete to end of line</td></tr>
+      <tr><td><kbd>Ctrl U</kbd></td><td class="desc">Delete entire line</td></tr>
+      <tr><td><kbd>Ctrl Y</kbd></td><td class="desc">Paste deleted text</td></tr>
+      <tr><td><kbd>Alt B/F</kbd></td><td class="desc">Move word back / forward</td></tr>
+    </table>
+  </div>
+
+  <!-- 2. SLASH COMMANDS -->
+  <div class="section s2">
+    <div class="section-title">🔧 Slash Commands</div>
+
+    <div class="sub">Session</div>
+    <table>
+      <tr><td><code>/clear</code></td><td class="desc">Clear conversation</td></tr>
+      <tr><td><code>/compact [focus]</code></td><td class="desc">Compact context</td></tr>
+      <tr><td><code>/resume</code></td><td class="desc">Resume/switch session</td></tr>
+      <tr><td><code>/rename [name]</code></td><td class="desc">Name current session</td></tr>
+      <tr><td><code>/fork [name]</code></td><td class="desc">Fork conversation</td></tr>
+      <tr><td><code>/cost</code></td><td class="desc">Token usage stats</td></tr>
+      <tr><td><code>/context</code></td><td class="desc">Visualize context (grid)</td></tr>
+      <tr><td><code>/diff</code></td><td class="desc">Interactive diff viewer</td></tr>
+      <tr><td><code>/copy</code></td><td class="desc">Copy last response</td></tr>
+      <tr><td><code>/export</code></td><td class="desc">Export conversation</td></tr>
+    </table>
+
+    <div class="sub">Config</div>
+    <table>
+      <tr><td><code>/config</code></td><td class="desc">Open settings</td></tr>
+      <tr><td><code>/model [model]</code></td><td class="desc">Switch model (→ effort)</td></tr>
+      <tr><td><code>/fast [on|off]</code></td><td class="desc">Toggle fast mode</td></tr>
+      <tr><td><code>/permissions</code></td><td class="desc">View/update permissions</td></tr>
+      <tr><td><code>/effort [level]</code></td><td class="desc">Set effort low/med/high <span class="new">NEW</span></td></tr>
+      <tr><td><code>/memory</code></td><td class="desc">Edit CLAUDE.md files</td></tr>
+      <tr><td><code>/hooks</code></td><td class="desc">Manage hooks</td></tr>
+      <tr><td><code>/mcp</code></td><td class="desc">Manage MCP servers</td></tr>
+      <tr><td><code>/agents</code></td><td class="desc">Manage agents</td></tr>
+      <tr><td><code>/skills</code></td><td class="desc">List available skills</td></tr>
+      <tr><td><code>/vim</code></td><td class="desc">Toggle vim mode</td></tr>
+      <tr><td><code>/theme</code></td><td class="desc">Change color theme</td></tr>
+      <tr><td><code>/terminal-setup</code></td><td class="desc">Configure terminal</td></tr>
+    </table>
+
+    <div class="sub">Tools</div>
+    <table>
+      <tr><td><code>/init</code></td><td class="desc">Create CLAUDE.md</td></tr>
+      <tr><td><code>/doctor</code></td><td class="desc">Diagnose installation</td></tr>
+      <tr><td><code>/stats</code></td><td class="desc">Usage stats &amp; prefs</td></tr>
+      <tr><td><code>/insights</code></td><td class="desc">Analyze sessions report</td></tr>
+      <tr><td><code>/btw &lt;q&gt;</code></td><td class="desc">Side Q, no context cost</td></tr>
+      <tr><td><code>/plan [desc]</code></td><td class="desc">Plan mode + auto-start</td></tr>
+      <tr><td><code>/voice</code></td><td class="desc">Push-to-talk (20 langs) <span class="new">NEW</span></td></tr>
+      <tr><td><code>/loop [interval]</code></td><td class="desc">Recurring scheduled task</td></tr>
+      <tr><td><code>/pr-comments [PR]</code></td><td class="desc">Fetch GitHub PR comments</td></tr>
+      <tr><td><code>/rc</code></td><td class="desc">Enable remote control</td></tr>
+      <tr><td><code>/reload-plugins</code></td><td class="desc">Hot-reload plugins</td></tr>
+    </table>
+  </div>
+
+  <!-- 3. CLI & FLAGS -->
+  <div class="section s3">
+    <div class="section-title">🚀 CLI &amp; Flags</div>
+
+    <div class="sub">Core Commands</div>
+    <table>
+      <tr><td><code>claude</code></td><td class="desc">Interactive mode</td></tr>
+      <tr><td><code>claude "query"</code></td><td class="desc">Start with prompt</td></tr>
+      <tr><td><code>claude -p "q"</code></td><td class="desc">Headless / SDK mode</td></tr>
+      <tr><td><code>claude -c</code></td><td class="desc">Continue last conv</td></tr>
+      <tr><td><code>claude -r "name"</code></td><td class="desc">Resume by name/ID</td></tr>
+      <tr><td><code>claude update</code></td><td class="desc">Update to latest</td></tr>
+      <tr><td><code>claude auth login</code></td><td class="desc">Sign in</td></tr>
+    </table>
+
+    <div class="sub">Key Flags</div>
+    <table>
+      <tr><td><code class="flag">--model</code></td><td class="desc">Set model</td></tr>
+      <tr><td><code class="flag">--effort</code></td><td class="desc">low / medium / high / max</td></tr>
+      <tr><td><code class="flag">-n / --name</code></td><td class="desc">Session name <span class="new">NEW</span></td></tr>
+      <tr><td><code class="flag">-w</code></td><td class="desc">Git worktree</td></tr>
+      <tr><td><code class="flag">--add-dir</code></td><td class="desc">Add working directory</td></tr>
+      <tr><td><code class="flag">--agent</code></td><td class="desc">Use specific agent</td></tr>
+      <tr><td><code class="flag">--allowedTools</code></td><td class="desc">Pre-approve tools</td></tr>
+      <tr><td><code class="flag">--disallowedTools</code></td><td class="desc">Deny tools</td></tr>
+      <tr><td><code class="flag">--permission-mode</code></td><td class="desc">Set mode at start</td></tr>
+      <tr><td><code class="flag">--output-format</code></td><td class="desc">text / json / stream-json</td></tr>
+      <tr><td><code class="flag">--json-schema</code></td><td class="desc">Structured output</td></tr>
+      <tr><td><code class="flag">--max-turns</code></td><td class="desc">Limit agentic turns</td></tr>
+      <tr><td><code class="flag">--max-budget-usd</code></td><td class="desc">Cost cap ($)</td></tr>
+      <tr><td><code class="flag">--system-prompt</code></td><td class="desc">Replace system prompt</td></tr>
+      <tr><td><code class="flag">--append-system-prompt</code></td><td class="desc">Append to system prompt</td></tr>
+      <tr><td><code class="flag">--mcp-config</code></td><td class="desc">Load MCP from JSON</td></tr>
+      <tr><td><code class="flag">--fork-session</code></td><td class="desc">New ID on resume</td></tr>
+      <tr><td><code class="flag">--from-pr</code></td><td class="desc">Resume from PR link</td></tr>
+      <tr><td><code class="flag">--remote</code></td><td class="desc">Web session on claude.ai</td></tr>
+      <tr><td><code class="flag">--verbose</code></td><td class="desc">Verbose logging</td></tr>
+      <tr><td><code class="flag">--debug</code></td><td class="desc">Debug mode</td></tr>
+    </table>
+
+    <div class="sub">Headless examples</div>
+    <div class="block">cat file.txt | claude -p "summarize"
+claude -p --output-format json "extract users"
+claude -p --max-turns 3 --effort high "refactor"
+claude -c -p "continue the last task"</div>
+  </div>
+
+  <!-- 4. SESSION MANAGEMENT -->
+  <div class="section s4">
+    <div class="section-title">📂 Session Management</div>
+
+    <div class="sub">Resume Sessions</div>
+    <table>
+      <tr><td><code>claude -c</code></td><td class="desc">Continue most recent</td></tr>
+      <tr><td><code>claude -r</code></td><td class="desc">Interactive session picker</td></tr>
+      <tr><td><code>claude -r "name"</code></td><td class="desc">Resume by name</td></tr>
+      <tr><td><code>claude -r "uuid"</code></td><td class="desc">Resume by session ID</td></tr>
+      <tr><td><code>claude --from-pr 123</code></td><td class="desc">Resume from PR</td></tr>
+      <tr><td><code>claude -c --fork-session</code></td><td class="desc">Continue + new ID</td></tr>
+      <tr><td><code>/resume</code></td><td class="desc">Picker inside session</td></tr>
+      <tr><td><code>/rename</code></td><td class="desc">Name session mid-way</td></tr>
+    </table>
+
+    <div class="sub">Session Picker Keys</div>
+    <table>
+      <tr><td><kbd>↑ ↓</kbd></td><td class="desc">Navigate sessions</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td class="desc">Select &amp; resume</td></tr>
+      <tr><td><kbd>P</kbd></td><td class="desc">Preview session</td></tr>
+      <tr><td><kbd>R</kbd></td><td class="desc">Rename session</td></tr>
+      <tr><td><kbd>/</kbd></td><td class="desc">Search / filter</td></tr>
+      <tr><td><kbd>A</kbd></td><td class="desc">All projects toggle</td></tr>
+      <tr><td><kbd>B</kbd></td><td class="desc">Filter by current branch</td></tr>
+    </table>
+
+    <div class="sub">Background Tasks</div>
+    <table>
+      <tr><td><kbd>Ctrl B</kbd></td><td class="desc">Background running task</td></tr>
+      <tr><td><code>/loop [interval]</code></td><td class="desc">Recurring task scheduler</td></tr>
+    </table>
+
+    <div class="sub">Git Worktrees</div>
+    <table>
+      <tr><td><code>claude -w feat-auth</code></td><td class="desc">Start in new worktree</td></tr>
+      <tr><td><code>claude -w</code></td><td class="desc">Auto-generate name</td></tr>
+    </table>
+
+    <div class="sub">Persistence</div>
+    <div class="block">Sessions stored: ~/.claude/projects/&lt;proj&gt;/
+Survives: reboot, VSCode restart, WSL restart
+No persistence: claude -p --no-session-persistence</div>
+
+    <div class="sub">Workflows &amp; Tips</div>
+    <table>
+      <tr><td><code>/btw &lt;q&gt;</code></td><td class="desc">Side Q, no context cost</td></tr>
+      <tr><td><code>/context</code></td><td class="desc">Visualize context usage</td></tr>
+      <tr><td><code>/compact</code></td><td class="desc">~95% capacity auto-trigger</td></tr>
+      <tr><td><code>1M ctx</code></td><td class="desc">Opus 4.6 (Max/Team/Ent)</td></tr>
+    </table>
+
+    <div class="sub">Plan Mode</div>
+    <table>
+      <tr><td><kbd>Shift Tab</kbd></td><td class="desc">Normal → Auto → Plan</td></tr>
+      <tr><td><code>--permission-mode plan</code></td><td class="desc">Start in plan mode</td></tr>
+      <tr><td><code>/plan [desc]</code></td><td class="desc">Plan + auto-start</td></tr>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="row-label">↕ REGULAR — Used frequently but not every session</div>
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- 5. SKILLS & AGENTS -->
+  <div class="section s5">
+    <div class="section-title">🤖 Skills &amp; Agents</div>
+
+    <div class="sub">Built-in Skills</div>
+    <table>
+      <tr><td><code>/simplify</code></td><td class="desc">Code review (3 agents)</td></tr>
+      <tr><td><code>/batch</code></td><td class="desc">Parallel changes (worktrees)</td></tr>
+      <tr><td><code>/loop [interval]</code></td><td class="desc">Recurring scheduled task</td></tr>
+      <tr><td><code>/claude-api</code></td><td class="desc">Load API + SDK reference</td></tr>
+    </table>
+
+    <div class="sub">Skill Locations</div>
+    <table>
+      <tr><td><code>.claude/skills/&lt;name&gt;/</code></td><td class="desc">Project skills</td></tr>
+      <tr><td><code>~/.claude/skills/&lt;name&gt;/</code></td><td class="desc">Personal skills</td></tr>
+    </table>
+
+    <div class="sub">Skill Frontmatter</div>
+    <div class="block">description: Auto-invocation trigger
+allowed-tools: Skip permission prompts
+model: Override model for skill
+context: fork  → Run in subagent
+$ARGUMENTS    User input placeholder
+$CLAUDE_SKILL_DIR  Skill's own dir
+$! cmd        Dynamic context injection</div>
+
+    <div class="sub">Built-in Agents</div>
+    <table>
+      <tr><td><code>Explore</code></td><td class="desc">Fast read-only (Haiku)</td></tr>
+      <tr><td><code>Plan</code></td><td class="desc">Research for plan mode</td></tr>
+      <tr><td><code>General</code></td><td class="desc">Full tools, complex tasks</td></tr>
+      <tr><td><code>Bash</code></td><td class="desc">Terminal, separate context</td></tr>
+    </table>
+
+    <div class="sub">Agent Frontmatter</div>
+    <div class="block">permissionMode: default|acceptEdits|plan|dontAsk
+isolation: worktree  → isolated git worktree
+memory: user|project → persistent memory
+background: true     → background task
+maxTurns: N          → limit agentic turns</div>
+  </div>
+
+  <!-- 6. MEMORY & FILES -->
+  <div class="section s6">
+    <div class="section-title">📁 Memory &amp; Files</div>
+
+    <div class="sub">CLAUDE.md Locations</div>
+    <table>
+      <tr><td><code>CLAUDE.md</code></td><td class="desc">Project root (team-shared)</td></tr>
+      <tr><td><code>.claude/CLAUDE.md</code></td><td class="desc">Project (team-shared)</td></tr>
+      <tr><td><code>.claude/CLAUDE.local.md</code></td><td class="desc">Local only (gitignored)</td></tr>
+      <tr><td><code>~/.claude/CLAUDE.md</code></td><td class="desc">Personal (all projects)</td></tr>
+      <tr><td><code>/etc/claude-code/</code></td><td class="desc">Managed (org-wide)</td></tr>
+    </table>
+
+    <div class="sub">Rules &amp; Import</div>
+    <table>
+      <tr><td><code>.claude/rules/*.md</code></td><td class="desc">Project rules</td></tr>
+      <tr><td><code>~/.claude/rules/*.md</code></td><td class="desc">User rules</td></tr>
+      <tr><td><code>paths: frontmatter</code></td><td class="desc">Path-specific rules</td></tr>
+      <tr><td><code>@path/to/file</code></td><td class="desc">Import in CLAUDE.md</td></tr>
+    </table>
+
+    <div class="sub">Auto Memory</div>
+    <div class="block">~/.claude/projects/&lt;proj&gt;/memory/
+MEMORY.md (index) + topic .md files
+Auto-loaded into every session context
+Types: user | feedback | project | reference</div>
+
+    <div class="sub">Loading Priority</div>
+    <div class="block">1. ~/.claude/CLAUDE.md    (user-level)
+2. .claude/CLAUDE.md      (project shared)
+3. .claude/CLAUDE.local.md (local personal)
+4. CLAUDE.md              (root, highest)</div>
+
+    <div class="sub">Commands</div>
+    <table>
+      <tr><td><code>/memory</code></td><td class="desc">View &amp; edit memory</td></tr>
+      <tr><td><code>/init</code></td><td class="desc">Create CLAUDE.md</td></tr>
+      <tr><td><code>/compact [focus]</code></td><td class="desc">Compress, keep focus</td></tr>
+    </table>
+  </div>
+
+  <!-- 7. CONFIG & ENV -->
+  <div class="section s7">
+    <div class="section-title">⚙️ Config &amp; Env</div>
+
+    <div class="sub">Config Files &amp; Scopes</div>
+    <table>
+      <tr><td><code>~/.claude/settings.json</code></td><td class="desc">User (all projects)</td></tr>
+      <tr><td><code>.claude/settings.json</code></td><td class="desc">Project (shared)</td></tr>
+      <tr><td><code>.claude/settings.local.json</code></td><td class="desc">Local (gitignored)</td></tr>
+      <tr><td><code>.claude.json</code></td><td class="desc">OAuth, MCP state</td></tr>
+      <tr><td><code>managed-settings.json</code></td><td class="desc">Org-wide (IT)</td></tr>
+    </table>
+
+    <div class="sub">Precedence (highest → lowest)</div>
+    <div class="block">managed → CLI args → local → project → user</div>
+
+    <div class="sub">Key Settings</div>
+    <div class="block">{
+  "defaultModel": "claude-sonnet-4-6",
+  "defaultMode": "default|acceptEdits|plan",
+  "additionalDirectories": ["../lib"],
+  "excludeSensitiveFiles": [".env"],
+  "modelOverrides": { "picker-id": "model-id" },
+  "autoMemoryDirectory": "custom/path",
+  "disableAllHooks": false
+}</div>
+
+    <div class="sub">Key Env Vars</div>
+    <table>
+      <tr><td><code>ANTHROPIC_API_KEY</code></td><td class="desc">API key</td></tr>
+      <tr><td><code>ANTHROPIC_MODEL</code></td><td class="desc">Override model</td></tr>
+      <tr><td><code>CLAUDE_CODE_EFFORT_LEVEL</code></td><td class="desc">low/med/high</td></tr>
+      <tr><td><code>MAX_THINKING_TOKENS</code></td><td class="desc">0=off</td></tr>
+      <tr><td><code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code></td><td class="desc">0=32K</td></tr>
+      <tr><td><code>CLAUDE_CODE_DISABLE_CRON</code></td><td class="desc">Disable scheduled tasks</td></tr>
+      <tr><td><code>ENABLE_TOOL_SEARCH</code></td><td class="desc">auto:5 / true / false</td></tr>
+      <tr><td><code>MAX_MCP_OUTPUT_TOKENS</code></td><td class="desc">Default 25K</td></tr>
+      <tr><td><code>MCP_TIMEOUT</code></td><td class="desc">ms, default 10000</td></tr>
+    </table>
+  </div>
+
+  <!-- 8. MCP SERVERS -->
+  <div class="section s11">
+    <div class="section-title">🔌 MCP Servers</div>
+
+    <div class="sub">Add Servers</div>
+    <div class="block">claude mcp add --transport http &lt;name&gt; &lt;url&gt;
+claude mcp add --transport stdio &lt;name&gt; -- &lt;cmd&gt;
+claude mcp add --transport sse &lt;name&gt; &lt;url&gt;  # deprecated
+# With auth header:
+claude mcp add --transport http secure \
+  https://api.example.com/mcp \
+  --header "Authorization: Bearer $TOKEN"</div>
+
+    <div class="sub">Scopes</div>
+    <table>
+      <tr><td><code>--scope local</code></td><td class="desc">~/.claude.json (default)</td></tr>
+      <tr><td><code>--scope project</code></td><td class="desc">.mcp.json (shared/VCS)</td></tr>
+      <tr><td><code>--scope user</code></td><td class="desc">~/.claude.json (global)</td></tr>
+    </table>
+
+    <div class="sub">Manage</div>
+    <table>
+      <tr><td><code>claude mcp list</code></td><td class="desc">List all servers</td></tr>
+      <tr><td><code>claude mcp get &lt;name&gt;</code></td><td class="desc">Server details</td></tr>
+      <tr><td><code>claude mcp remove &lt;name&gt;</code></td><td class="desc">Remove server</td></tr>
+      <tr><td><code>/mcp</code></td><td class="desc">Interactive UI + auth</td></tr>
+    </table>
+
+    <div class="sub">MCP Resources &amp; Prompts</div>
+    <div class="block">@server:protocol://resource/path   # reference resource
+/mcp__servername__promptname       # execute prompt
+/mcp__github__pr_review 456        # with args</div>
+
+    <div class="sub">Env Var Expansion in .mcp.json</div>
+    <div class="block">"url": "${API_BASE_URL:-https://default.com}/mcp"
+"headers": {"Authorization": "Bearer ${API_KEY}"}</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="row-label">⬇ ADVANCED — Power users &amp; automation</div>
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- 9. HOOKS -->
+  <div class="section s9 span2">
+    <div class="section-title">🎣 Hooks — Automate Everything</div>
+
+    <div class="inline-grid">
+      <div>
+        <div class="sub">Event Lifecycle (in order)</div>
+        <table>
+          <tr><td><code>SessionStart</code></td><td class="desc">Session begins (matcher: "resume")</td></tr>
+          <tr><td><code>InstructionsLoaded</code></td><td class="desc">CLAUDE.md loaded</td></tr>
+          <tr><td><code>UserPromptSubmit</code></td><td class="desc">Before prompt processed <strong style="color:#ff7b72">✦ block</strong></td></tr>
+          <tr><td><code>PreToolUse</code></td><td class="desc">Before any tool runs <strong style="color:#ff7b72">✦ block</strong></td></tr>
+          <tr><td><code>PermissionRequest</code></td><td class="desc">Before permission prompt <strong style="color:#ff7b72">✦ block</strong></td></tr>
+          <tr><td><code>PostToolUse</code></td><td class="desc">After tool succeeds</td></tr>
+          <tr><td><code>PostToolUseFailure</code></td><td class="desc">After tool fails</td></tr>
+          <tr><td><code>Notification</code></td><td class="desc">System notification (matcher: "permission_prompt")</td></tr>
+          <tr><td><code>SubagentStart/Stop</code></td><td class="desc">Agent lifecycle (matcher: "Explore")</td></tr>
+          <tr><td><code>Stop</code></td><td class="desc">Claude stops responding <strong style="color:#ff7b72">✦ block</strong></td></tr>
+          <tr><td><code>TeammateIdle</code></td><td class="desc">Agent waiting (exit 2 to block)</td></tr>
+          <tr><td><code>TaskCompleted</code></td><td class="desc">Task done (exit 2 to continue)</td></tr>
+          <tr><td><code>ConfigChange</code></td><td class="desc">Settings changed <strong style="color:#ff7b72">✦ block</strong></td></tr>
+          <tr><td><code>WorktreeCreate</code></td><td class="desc">New worktree (non-0 exit blocks)</td></tr>
+          <tr><td><code>PreCompact/PostCompact</code></td><td class="desc">Context compaction</td></tr>
+          <tr><td><code>SessionEnd</code></td><td class="desc">Session closes</td></tr>
+        </table>
+
+        <div class="sub">Hook Types</div>
+        <table>
+          <tr><td><code>command</code></td><td class="desc">Shell script — stdin JSON, stdout JSON, exit 0/2</td></tr>
+          <tr><td><code>http</code></td><td class="desc">POST to URL — 2xx=ok, other=warn</td></tr>
+          <tr><td><code>prompt</code></td><td class="desc">LLM evaluates — returns {ok, reason}</td></tr>
+          <tr><td><code>agent</code></td><td class="desc">Subagent with Read/Grep/Glob access</td></tr>
+        </table>
+
+        <div class="sub">Block Mechanisms</div>
+        <table>
+          <tr><td><code>exit 2</code></td><td class="desc">Block from command hook</td></tr>
+          <tr><td><code>permissionDecision: "deny"</code></td><td class="desc">Block PreToolUse</td></tr>
+          <tr><td><code>decision: "block"</code></td><td class="desc">Block Stop/UserPromptSubmit</td></tr>
+          <tr><td><code>action: "decline"</code></td><td class="desc">Block Elicitation</td></tr>
+        </table>
+      </div>
+
+      <div>
+        <div class="sub">Config Structure</div>
+        <div class="block">{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash(git push*)",
+      "hooks": [{
+        "type": "command",
+        "command": "./check-branch.sh",
+        "timeout": 30
+      }]
+    }],
+    "Stop": [{
+      "hooks": [{
+        "type": "command",
+        "command": "notify-send 'Claude done'"
+      }]
+    }]
+  }
+}</div>
+
+        <div class="sub">Matcher Patterns</div>
+        <table>
+          <tr><td><code>"Bash"</code></td><td class="desc">All Bash tool calls</td></tr>
+          <tr><td><code>"Edit|Write"</code></td><td class="desc">Edit or Write</td></tr>
+          <tr><td><code>"mcp__.*"</code></td><td class="desc">Any MCP tool (regex)</td></tr>
+          <tr><td><code>"Bash(git push*)"</code></td><td class="desc">Specific command pattern</td></tr>
+          <tr><td><code>"resume"</code></td><td class="desc">SessionStart on resume</td></tr>
+          <tr><td><code>"Explore"</code></td><td class="desc">Explore subagent start</td></tr>
+          <tr><td><code>"auto"</code></td><td class="desc">PreCompact auto-triggered</td></tr>
+        </table>
+
+        <div class="sub">Hook Locations</div>
+        <table>
+          <tr><td><code>~/.claude/settings.json</code></td><td class="desc">All projects (personal)</td></tr>
+          <tr><td><code>.claude/settings.json</code></td><td class="desc">Project (shared)</td></tr>
+          <tr><td><code>.claude/settings.local.json</code></td><td class="desc">Project (local)</td></tr>
+          <tr><td><code>.claude/rules/</code></td><td class="desc">Path-based rules</td></tr>
+          <tr><td><code>plugin hooks/hooks.json</code></td><td class="desc">Plugin scope</td></tr>
+        </table>
+
+        <div class="sub">Env Vars in Hooks</div>
+        <table>
+          <tr><td><code>$CLAUDE_PROJECT_DIR</code></td><td class="desc">Project root path</td></tr>
+          <tr><td><code>$CLAUDE_PLUGIN_ROOT</code></td><td class="desc">Plugin root</td></tr>
+          <tr><td><code>$CLAUDE_ENV_FILE</code></td><td class="desc">Persist env (SessionStart)</td></tr>
+          <tr><td><code>$CLAUDE_CODE_REMOTE</code></td><td class="desc">"true" in web sessions</td></tr>
+        </table>
+
+        <div class="sub">Disable Hooks</div>
+        <div class="block">settings.json: "disableAllHooks": true
+/hooks  → browse and disable individually</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. PERMISSION RULES -->
+  <div class="section s10">
+    <div class="section-title">🔐 Permission Rules</div>
+
+    <div class="sub">Permission Modes</div>
+    <div class="modes-bar">
+      <div class="mode-pill">default <span>prompts</span></div>
+      <div class="mode-pill">acceptEdits <span>auto-accept edits</span></div>
+      <div class="mode-pill">plan <span>read-only</span></div>
+      <div class="mode-pill">dontAsk <span>deny unless allowed</span></div>
+      <div class="mode-pill">bypassPermissions <span>skip all</span></div>
+    </div>
+
+    <div class="sub">Rule Syntax</div>
+    <div class="block">Tool  or  Tool(specifier)
+allow / ask / deny arrays in settings.json</div>
+
+    <div class="sub">Bash Wildcards</div>
+    <table>
+      <tr><td><code>Bash(*)</code></td><td class="desc">All bash commands</td></tr>
+      <tr><td><code>Bash(npm run *)</code></td><td class="desc">Prefix match</td></tr>
+      <tr><td><code>Bash(* install)</code></td><td class="desc">Suffix match</td></tr>
+      <tr><td><code>Bash(git * main)</code></td><td class="desc">Wildcard in middle</td></tr>
+      <tr><td><code>Bash(ls *)</code></td><td class="desc">Word boundary (≠ lsof)</td></tr>
+    </table>
+
+    <div class="sub">File Rules (gitignore syntax)</div>
+    <table>
+      <tr><td><code>Read(.env)</code></td><td class="desc">Specific file in cwd</td></tr>
+      <tr><td><code>Read(src/**)</code></td><td class="desc">Relative path</td></tr>
+      <tr><td><code>Read(~/docs/*.pdf)</code></td><td class="desc">From home dir</td></tr>
+      <tr><td><code>Edit(/src/**/*.ts)</code></td><td class="desc">TypeScript files</td></tr>
+    </table>
+
+    <div class="sub">Other Rules</div>
+    <table>
+      <tr><td><code>WebFetch(domain:github.com)</code></td><td class="desc">Domain allow</td></tr>
+      <tr><td><code>mcp__github</code></td><td class="desc">All tools from server</td></tr>
+      <tr><td><code>mcp__github__list_prs</code></td><td class="desc">Specific MCP tool</td></tr>
+      <tr><td><code>Agent(Explore)</code></td><td class="desc">Deny Explore agent</td></tr>
+    </table>
+
+    <div class="sub">Example settings.json</div>
+    <div class="block">"permissions": {
+  "allow": ["Bash(npm *)", "Read(src/**)"],
+  "ask":   ["Edit"],
+  "deny":  ["Bash(git push *)", "Bash(rm *)"]
+}</div>
+  </div>
+
+  <!-- 11. VIM MODE -->
+  <div class="section s12">
+    <div class="section-title">🅥 Vim Mode</div>
+
+    <div class="sub">Enable</div>
+    <table>
+      <tr><td><code>/vim</code></td><td class="desc">Toggle vim mode</td></tr>
+      <tr><td><code>/config</code></td><td class="desc">Set as default</td></tr>
+    </table>
+
+    <div class="sub">Mode Switching</div>
+    <table>
+      <tr><td><kbd>Esc</kbd></td><td class="desc">→ NORMAL</td></tr>
+      <tr><td><kbd>i / I</kbd></td><td class="desc">Insert before / at start</td></tr>
+      <tr><td><kbd>a / A</kbd></td><td class="desc">Insert after / at end</td></tr>
+      <tr><td><kbd>o / O</kbd></td><td class="desc">New line below / above</td></tr>
+    </table>
+
+    <div class="sub">Navigation (NORMAL)</div>
+    <table>
+      <tr><td><kbd>h j k l</kbd></td><td class="desc">←↓↑→</td></tr>
+      <tr><td><kbd>w / e / b</kbd></td><td class="desc">Next / end / prev word</td></tr>
+      <tr><td><kbd>0 / $</kbd></td><td class="desc">Line start / end</td></tr>
+      <tr><td><kbd>gg / G</kbd></td><td class="desc">Input start / end</td></tr>
+      <tr><td><kbd>f{c} / F{c}</kbd></td><td class="desc">Jump to char fwd/bwd</td></tr>
+    </table>
+
+    <div class="sub">Editing (NORMAL)</div>
+    <table>
+      <tr><td><kbd>x / dd / D</kbd></td><td class="desc">Del char / line / to end</td></tr>
+      <tr><td><kbd>cc / C</kbd></td><td class="desc">Change line / to end</td></tr>
+      <tr><td><kbd>yy / p / P</kbd></td><td class="desc">Yank / paste after/before</td></tr>
+      <tr><td><kbd>. / u</kbd></td><td class="desc">Repeat / undo</td></tr>
+      <tr><td><kbd>&gt;&gt; / &lt;&lt;</kbd></td><td class="desc">Indent / dedent</td></tr>
+      <tr><td><kbd>J</kbd></td><td class="desc">Join lines</td></tr>
+    </table>
+
+    <div class="sub">Text Objects</div>
+    <table>
+      <tr><td><kbd>iw / aw</kbd></td><td class="desc">Inner / around word</td></tr>
+      <tr><td><kbd>i" / a"</kbd></td><td class="desc">Inner / around quotes</td></tr>
+      <tr><td><kbd>i( / a(</kbd></td><td class="desc">Inner / around parens</td></tr>
+      <tr><td><kbd>i{ / a{</kbd></td><td class="desc">Inner / around braces</td></tr>
+    </table>
+  </div>
+
+  <!-- 12. KEYBINDINGS -->
+  <div class="section s8">
+    <div class="section-title">⌨️ Custom Keybindings</div>
+
+    <div class="sub">Config File</div>
+    <div class="block">~/.claude/keybindings.json
+Edit with: /keybindings</div>
+
+    <div class="sub">Format</div>
+    <div class="block">{
+  "bindings": [{
+    "context": "Chat",
+    "bindings": {
+      "ctrl+e": "chat:externalEditor",
+      "ctrl+u": null
+    }
+  }]
+}</div>
+
+    <div class="sub">Contexts</div>
+    <div class="block">Global · Chat · Autocomplete · Confirmation
+Settings · Tabs · Task · DiffDialog
+ModelPicker · HistorySearch · Transcript</div>
+
+    <div class="sub">Key Actions</div>
+    <table>
+      <tr><td><code>app:interrupt</code></td><td class="desc">Ctrl+C</td></tr>
+      <tr><td><code>app:exit</code></td><td class="desc">Ctrl+D</td></tr>
+      <tr><td><code>app:toggleTodos</code></td><td class="desc">Task list</td></tr>
+      <tr><td><code>chat:submit</code></td><td class="desc">Send message</td></tr>
+      <tr><td><code>chat:cycleMode</code></td><td class="desc">Permission modes</td></tr>
+      <tr><td><code>chat:modelPicker</code></td><td class="desc">Open model picker</td></tr>
+      <tr><td><code>chat:thinkingToggle</code></td><td class="desc">Extended thinking</td></tr>
+      <tr><td><code>chat:externalEditor</code></td><td class="desc">Open in editor</td></tr>
+      <tr><td><code>task:background</code></td><td class="desc">Background task</td></tr>
+    </table>
+
+    <div class="sub">Syntax</div>
+    <div class="block">"ctrl+k"          single modifier
+"shift+tab"       shift key
+"meta+p"          Cmd/Win key
+"ctrl+k ctrl+s"   chord (sequence)
+null              unbind key</div>
+
+    <div class="sub">Validate</div>
+    <div class="block">/doctor  → shows keybinding warnings</div>
+  </div>
+
+  <footer>
+    Claude Code Cheat Sheet &nbsp;·&nbsp; v2.1+ &nbsp;·&nbsp; 2026-03 &nbsp;·&nbsp;
+    Sections ordered by frequency of use: Everyday → Regular → Advanced &nbsp;·&nbsp;
+    Print: open in Chrome → Print → A3 Landscape → Save as PDF
+  </footer>
+
+</div>
+</body>
+</html>
