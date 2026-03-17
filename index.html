@@ -76,6 +76,7 @@
 
   /* ── HEADER ─────────────────────────────────────────── */
   header {
+    column-span: all;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -326,6 +327,7 @@
 </head>
 <body>
 
+<div class="grid">
 <header>
   <div class="header-left">
     <!-- Claude logo -->
@@ -347,8 +349,6 @@
     Print: Chrome → A3 Portrait → PDF
   </div>
 </header>
-
-<div class="grid">
 
   <!-- ══════════════════════════════════════════════════════════ -->
   <div class="row-label">⬆ EVERYDAY — Most frequently used</div>
@@ -1105,6 +1105,6 @@ Conflicts: Ctrl+B=tmux · Ctrl+A=screen</div>
     Print: open in Chrome → Print → A3 Landscape → Save as PDF
   </footer>
 
-</div>
+</div><!-- .grid -->
 </body>
 </html>
