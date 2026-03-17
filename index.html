@@ -6,25 +6,33 @@
 <title>Claude Code Cheat Sheet</title>
 <style>
   :root {
-    --bg:       #0d1117;
-    --surface:  #161b22;
-    --border:   #30363d;
-    --text:     #c9d1d9;
-    --muted:    #8b949e;
-    --code-bg:  #1c2128;
+    /* Claude brand palette */
+    --claude-coral:   #D97757;
+    --claude-dark:    #1A0F0A;
+    --claude-warm:    #CC785C;
 
-    --c1: #58a6ff; /* keyboard   – blue        */
-    --c2: #e3b341; /* slash cmds – amber       */
-    --c3: #f78166; /* cli/flags  – coral       */
-    --c4: #3fb950; /* session    – green       */
-    --c5: #d2a8ff; /* skills     – purple      */
-    --c6: #39d353; /* memory     – lime        */
-    --c7: #79c0ff; /* config     – light-blue  */
-    --c8: #ffa657; /* workflows  – orange      */
-    --c9: #ff7b72; /* hooks      – red         */
-    --c10:#56d364; /* permissions– emerald     */
-    --c11:#bc8cff; /* mcp        – violet      */
-    --c12:#63e6be; /* vim        – teal        */
+    /* Surface palette */
+    --bg:       #111318;
+    --surface:  #1C2128;
+    --surface2: #22272E;
+    --border:   #373E47;
+    --text:     #D8DEE9;
+    --muted:    #768390;
+    --code-bg:  #161B22;
+
+    /* Section accent colors — rich & distinct */
+    --c1:  #4D9EFF; /* keyboard    – azure       */
+    --c2:  #E3A840; /* slash cmds  – amber       */
+    --c3:  #D97757; /* cli/flags   – claude coral*/
+    --c4:  #3CBC6E; /* session     – green       */
+    --c5:  #B87FFF; /* skills      – violet      */
+    --c6:  #2EA669; /* memory      – emerald     */
+    --c7:  #5BA3F5; /* config      – sky blue    */
+    --c8:  #F0883E; /* keybindings – orange      */
+    --c9:  #F47067; /* hooks       – red         */
+    --c10: #57AB5A; /* permissions – sage        */
+    --c11: #986EE2; /* mcp         – purple      */
+    --c12: #39C5CF; /* vim         – teal        */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,206 +41,269 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    font-size: 9px;
-    line-height: 1.4;
-    padding: 6px;
+    font-size: 10.5px;
+    line-height: 1.45;
+    padding: 8px;
   }
 
+  /* ── HEADER ─────────────────────────────────────────── */
   header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 8px 6px;
+    padding: 6px 10px 8px;
+    margin-bottom: 8px;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 6px;
   }
 
-  header h1 {
-    font-size: 16px;
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Claude logo SVG */
+  .claude-logo {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .header-title h1 {
+    font-size: 20px;
     font-weight: 700;
     color: #fff;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
+    line-height: 1;
   }
 
-  header span {
-    font-size: 8px;
+  .header-title p {
+    font-size: 9px;
     color: var(--muted);
+    margin-top: 2px;
   }
 
+  .header-right {
+    text-align: right;
+    font-size: 9px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .header-right strong {
+    color: var(--claude-coral);
+  }
+
+  /* ── GRID ────────────────────────────────────────────── */
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
+    gap: 6px;
   }
 
   /* Row separators */
   .row-label {
     grid-column: 1 / -1;
-    font-size: 7px;
-    color: var(--muted);
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--claude-coral);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 3px 2px 1px;
+    letter-spacing: 1.5px;
+    padding: 5px 4px 2px;
     border-top: 1px solid var(--border);
     margin-top: 2px;
   }
 
-  .row-label:first-child { border-top: none; margin-top: 0; }
+  .row-label:first-child { border-top: none; margin-top: 0; padding-top: 0; }
 
+  /* ── SECTIONS ────────────────────────────────────────── */
   .section {
     background: var(--surface);
-    border-radius: 4px;
-    padding: 5px 6px;
-    border-top: 2px solid var(--border);
+    border-radius: 5px;
+    overflow: hidden;
     break-inside: avoid;
+    padding: 0 7px 6px;
   }
 
   .section.span2 { grid-column: span 2; }
 
+  /* Section title — solid colored bar, bleeds to edge */
   .section-title {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-    padding-bottom: 3px;
-    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.6px;
+    padding: 5px 8px;
+    margin: 0 -7px 5px -7px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
-  /* Color accents per section */
-  .s1 { border-top-color: var(--c1); } .s1 .section-title { color: var(--c1); }
-  .s2 { border-top-color: var(--c2); } .s2 .section-title { color: var(--c2); }
-  .s3 { border-top-color: var(--c3); } .s3 .section-title { color: var(--c3); }
-  .s4 { border-top-color: var(--c4); } .s4 .section-title { color: var(--c4); }
-  .s5 { border-top-color: var(--c5); } .s5 .section-title { color: var(--c5); }
-  .s6 { border-top-color: var(--c6); } .s6 .section-title { color: var(--c6); }
-  .s7 { border-top-color: var(--c7); } .s7 .section-title { color: var(--c7); }
-  .s8 { border-top-color: var(--c8); } .s8 .section-title { color: var(--c8); }
-  .s9 { border-top-color: var(--c9); } .s9 .section-title { color: var(--c9); }
-  .s10{ border-top-color: var(--c10);} .s10 .section-title{ color: var(--c10);}
-  .s11{ border-top-color: var(--c11);} .s11 .section-title{ color: var(--c11);}
-  .s12{ border-top-color: var(--c12);} .s12 .section-title{ color: var(--c12);}
+  /* Section color: background on title bar */
+  .s1  .section-title { background: var(--c1);  }
+  .s2  .section-title { background: var(--c2);  color: #111; }
+  .s3  .section-title { background: var(--c3);  }
+  .s4  .section-title { background: var(--c4);  }
+  .s5  .section-title { background: var(--c5);  }
+  .s6  .section-title { background: var(--c6);  }
+  .s7  .section-title { background: var(--c7);  }
+  .s8  .section-title { background: var(--c8);  color: #111; }
+  .s9  .section-title { background: var(--c9);  }
+  .s10 .section-title { background: var(--c10); }
+  .s11 .section-title { background: var(--c11); }
+  .s12 .section-title { background: var(--c12); color: #111; }
 
+  /* Sub-headers */
   .sub {
-    font-size: 7.5px;
+    font-size: 8px;
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin: 4px 0 2px;
+    letter-spacing: 0.5px;
+    margin: 5px 0 2px;
+    padding-bottom: 1px;
+    border-bottom: 1px solid var(--border);
   }
 
+  /* ── TABLES ──────────────────────────────────────────── */
   table { width: 100%; border-collapse: collapse; }
 
   td {
-    padding: 0.8px 2px;
+    padding: 1px 2px;
     vertical-align: top;
     color: var(--text);
   }
 
   td:first-child {
     white-space: nowrap;
-    padding-right: 5px;
-    min-width: 80px;
+    padding-right: 6px;
+    min-width: 90px;
   }
 
+  /* ── INLINE ELEMENTS ─────────────────────────────────── */
   kbd {
     background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 0 2px;
-    font-size: 8px;
-    color: #fff;
+    border-radius: 3px;
+    padding: 0 3px;
+    font-size: 9px;
+    color: #E8F4FF;
     white-space: nowrap;
   }
 
   code {
     background: var(--code-bg);
     border-radius: 2px;
-    padding: 0 2px;
-    color: #a5d6ff;
-    font-size: 8.5px;
+    padding: 0 3px;
+    color: #79C0FF;
+    font-size: 9.5px;
   }
 
-  .cmd { color: var(--text); }
   .desc { color: var(--muted); }
+  .flag { color: #F0883E; font-size: 9.5px; }
 
-  .flag { color: #ffa657; font-size: 8.5px; }
   .new {
-    background: #238636;
-    color: #fff;
-    font-size: 6.5px;
-    border-radius: 2px;
-    padding: 0 2px;
-    margin-left: 2px;
+    background: #1F6335;
+    border: 1px solid #2EA043;
+    color: #3FB950;
+    font-size: 7px;
+    border-radius: 3px;
+    padding: 0 3px;
+    margin-left: 3px;
     vertical-align: middle;
     font-weight: 700;
+    letter-spacing: 0.3px;
   }
 
+  /* ── CODE BLOCKS ─────────────────────────────────────── */
   .block {
     background: var(--code-bg);
     border-radius: 3px;
-    padding: 3px 5px;
+    padding: 4px 6px;
     margin-top: 3px;
-    font-size: 8px;
-    color: #a5d6ff;
+    font-size: 8.5px;
+    color: #79C0FF;
     border-left: 2px solid var(--border);
+    white-space: pre;
+    overflow-x: hidden;
   }
 
+  /* ── HOOKS SPLIT ─────────────────────────────────────── */
   .inline-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0 8px;
+    gap: 0 10px;
   }
 
-  footer {
-    grid-column: 1 / -1;
-    text-align: center;
-    font-size: 7px;
-    color: var(--muted);
-    padding-top: 5px;
-    border-top: 1px solid var(--border);
-    margin-top: 3px;
-  }
-
-  /* Permission modes bar */
+  /* ── PERMISSION MODES ────────────────────────────────── */
   .modes-bar {
     display: flex;
     gap: 3px;
     margin-top: 4px;
     flex-wrap: wrap;
   }
+
   .mode-pill {
     background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 1px 4px;
-    font-size: 7.5px;
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 8.5px;
     color: var(--text);
   }
-  .mode-pill span { color: var(--muted); font-size: 7px; }
 
+  .mode-pill span {
+    color: var(--muted);
+    font-size: 8px;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────────── */
+  footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8px;
+    color: var(--muted);
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 3px;
+  }
+
+  footer a { color: var(--claude-coral); text-decoration: none; }
+
+  /* ── PRINT ───────────────────────────────────────────── */
   @media print {
-    @page { size: A3 landscape; margin: 6mm; }
-    body { background: #fff !important; color: #000 !important; font-size: 8px; }
-    .section { background: #f6f8fa !important; border-color: #ccc !important; }
-    .section-title { color: #000 !important; }
-    kbd, code { background: #e8e8e8 !important; color: #000 !important; border-color: #ccc !important; }
-    .block { background: #eee !important; color: #333 !important; }
-    td, .desc, .muted { color: #333 !important; }
-    .row-label { color: #666 !important; }
-    footer { color: #666 !important; }
-    .new { background: #1a7f37 !important; }
-    header { border-color: #ccc !important; }
-    .modes-bar .mode-pill { background: #eee !important; border-color: #ccc !important; color: #000 !important; }
+    @page { size: A3 landscape; margin: 5mm; }
+    body { font-size: 9px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Claude Code Cheat Sheet</h1>
-  <span>Claude Code v2.1+ &nbsp;·&nbsp; Last updated: 2026-03 &nbsp;·&nbsp; Print: A3 Landscape</span>
+  <div class="header-left">
+    <!-- Claude logo -->
+    <svg class="claude-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="40" rx="8" fill="#D97757"/>
+      <path d="M20 8C13.373 8 8 13.373 8 20C8 26.627 13.373 32 20 32C26.627 32 32 26.627 32 20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M20 12C15.582 12 12 15.582 12 20C12 24.418 15.582 28 20 28C24.418 28 28 24.418 28 20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M20 16C17.791 16 16 17.791 16 20C16 22.209 17.791 24 20 24C22.209 24 24 22.209 24 20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="20" cy="20" r="2" fill="white"/>
+    </svg>
+    <div class="header-title">
+      <h1>Claude Code Cheat Sheet</h1>
+      <p>Complete reference — ordered by frequency of use: Everyday → Regular → Advanced</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <strong>Claude Code v2.1+</strong><br>
+    Last updated: 2026-03<br>
+    Print: Chrome → A3 Landscape → PDF
+  </div>
 </header>
 
 <div class="grid">
