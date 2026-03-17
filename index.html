@@ -110,8 +110,8 @@
 
   /* ── COLUMN LAYOUT (newspaper style) ────────────────── */
   .grid {
-    columns: 4;
-    column-gap: 10px;
+    columns: 3;
+    column-gap: 12px;
     orphans: 2;
     widows: 2;
   }
@@ -306,9 +306,19 @@
 
   /* ── PRINT ───────────────────────────────────────────── */
   @media print {
-    @page { size: A3 landscape; margin: 6mm; }
-    body { background: #E9ECF0; font-size: 11px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A3 portrait; margin: 8mm; }
+    body {
+      background: #E9ECF0;
+      font-size: 10.5px;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .grid { columns: 3; column-gap: 10px; }
+    header { border-radius: 6px; padding: 8px 14px; margin-bottom: 8px; }
+    .header-title h1 { font-size: 20px; }
     .section-title, .block, .section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { margin-bottom: 8px; }
   }
 </style>
 </head>
@@ -332,7 +342,7 @@
   <div class="header-right">
     <strong>Claude Code v2.1+</strong><br>
     Last updated: 2026-03<br>
-    Print: Chrome → A3 Landscape → PDF
+    Print: Chrome → A3 Portrait → PDF
   </div>
 </header>
 
